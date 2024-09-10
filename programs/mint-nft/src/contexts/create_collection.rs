@@ -28,6 +28,14 @@ use anchor_spl::metadata::mpl_token_metadata::{
 
 use crate::utils::add_avatar_to_url;
 
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct CreatorInfo {
+    pub address: Pubkey,
+    pub verified: bool,
+    pub share: u8,
+}
+
 #[account]
 pub struct LaunchpadInfo {
     pub uri: String,  // Length (4 bytes) + Assume a maximum size of 200 characters → 4 + 200 = 204 bytes
@@ -37,6 +45,8 @@ pub struct LaunchpadInfo {
     pub total_supply: u64, // 8 bytes
     pub mint_count: u64, // 8 bytes
     pub collection_account: Pubkey, // 32 bytes
+    pub creators: Vec<CreatorInfo>, // limit 5 creators ==> 5 * 33 = 165 bytes
+    pub mint_price: u64, // 8 bytes
     pub bump: u8, // 1 bytes
 }
 
@@ -63,7 +73,7 @@ pub struct CreateCollection<'info> {
     #[account(
         init,
         payer = user,
-        space = 8 + 204 + 54 + 14 + 2 + 8 + 8 + 32 + 1,
+        space = 8 + 204 + 54 + 14 + 2 + 8 + 8 + 32 + 165 + 8 + 1,
         seeds = [b"collection", mint.key().as_ref()],
         bump,
     )]
@@ -97,6 +107,8 @@ impl<'info> CreateCollection<'info> {
         uri: String, 
         fee_basis: u16,
         total_supply: u64,
+        mint_price: u64,
+        creators: Vec<CreatorInfo>
     ) -> Result<()> {
 
         let metadata = &self.metadata.to_account_info();
@@ -134,14 +146,18 @@ impl<'info> CreateCollection<'info> {
         launchpad_info.mint_count = 0;
         launchpad_info.bump = bumps.launchpad_info;
         launchpad_info.uri = uri.clone();
+        launchpad_info.mint_price = mint_price;
+        launchpad_info.creators = creators.clone();
 
-        let creator = vec![
-            Creator {
-                address: self.mint_authority.key().clone(),
-                verified: true,
-                share: 100,
-            },
-        ];
+
+        let creator_vec: Vec<Creator> = creators
+            .into_iter()
+            .map(|c| Creator {
+                address: c.address,
+                verified: c.verified,
+                share: c.share,
+            })
+            .collect();
 
         let uri_avatar = add_avatar_to_url(uri.as_str());
         
@@ -162,7 +178,7 @@ impl<'info> CreateCollection<'info> {
                     symbol: symbol.to_string(),
                     uri: uri_avatar,
                     seller_fee_basis_points: fee_basis,
-                    creators: Some(creator),
+                    creators: Some(creator_vec),
                     collection: None,
                     uses: None,
                 },

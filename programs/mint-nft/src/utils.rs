@@ -1,9 +1,9 @@
 
 pub fn add_avatar_to_url(url: &str) -> String {
   if url.ends_with('/') {
-      format!("{}avatar", url)
+      format!("{}avatar.json", url)
   } else {
-      format!("{}/avatar", url)
+      format!("{}/avatar.json", url)
   }
 }
 

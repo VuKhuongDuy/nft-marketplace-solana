@@ -51,130 +51,130 @@ describe('mint-nft', () => {
   };
 
   it.skip('Create Collection NFT', async () => {
-    const colData = {
-      name: "Thunder",
-      symbol: "TD",
-      uri: "https://arweave.net/Z8fBYuJKPC0JRL4m55kbr7N1OxvHJc4u9jjN3c6j1Qs/avatar.json",
-      feeBasis: 0
-    }
-    console.log('\nCollection Mint Key: ', collectionMint.toBase58());
+    // const colData = {
+    //   name: "Thunder",
+    //   symbol: "TD",
+    //   uri: "https://arweave.net/Z8fBYuJKPC0JRL4m55kbr7N1OxvHJc4u9jjN3c6j1Qs/avatar.json",
+    //   feeBasis: 0
+    // }
+    // console.log('\nCollection Mint Key: ', collectionMint.toBase58());
 
-    const metadata = await getMetadata(collectionMint);
-    console.log('Collection Metadata Account: ', metadata.toBase58());
+    // const metadata = await getMetadata(collectionMint);
+    // console.log('Collection Metadata Account: ', metadata.toBase58());
 
-    const masterEdition = await getMasterEdition(collectionMint);
-    console.log('Master Edition Account: ', masterEdition.toBase58());
+    // const masterEdition = await getMasterEdition(collectionMint);
+    // console.log('Master Edition Account: ', masterEdition.toBase58());
 
-    const destination = getAssociatedTokenAddressSync(collectionMint, wallet.publicKey);
-    console.log('Destination ATA = ', destination.toBase58());
+    // const destination = getAssociatedTokenAddressSync(collectionMint, wallet.publicKey);
+    // console.log('Destination ATA = ', destination.toBase58());
 
-    const tx = await program.methods
-      .createCollection(
-        colData.name,
-        colData.symbol,
-        colData.uri,
-        colData.feeBasis
-      )
-      .accountsPartial({
-        user: wallet.publicKey,
-        mint: collectionMint,
-        mintAuthority,
-        metadata,
-        masterEdition,
-        destination,
-        systemProgram: SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-      })
-      .signers([collectionKeypair])
-      .rpc({
-        skipPreflight: true,
-      });
-    console.log('\nCollection NFT minted: TxID - ', tx);
+    // const tx = await program.methods
+    //   .createCollection(
+    //     colData.name,
+    //     colData.symbol,
+    //     colData.uri,
+    //     colData.feeBasis
+    //   )
+    //   .accountsPartial({
+    //     user: wallet.publicKey,
+    //     mint: collectionMint,
+    //     mintAuthority,
+    //     metadata,
+    //     masterEdition,
+    //     destination,
+    //     systemProgram: SystemProgram.programId,
+    //     tokenProgram: TOKEN_PROGRAM_ID,
+    //     associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+    //     tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+    //   })
+    //   .signers([collectionKeypair])
+    //   .rpc({
+    //     skipPreflight: true,
+    //   });
+    // console.log('\nCollection NFT minted: TxID - ', tx);
   });
 
   it.skip('Mint NFT', async () => {
-    console.log('\nMint', mint.toBase58());
+    // console.log('\nMint', mint.toBase58());
 
-    const metadata = await getMetadata(mint);
-    console.log('Metadata', metadata.toBase58());
+    // const metadata = await getMetadata(mint);
+    // console.log('Metadata', metadata.toBase58());
 
-    const masterEdition = await getMasterEdition(mint);
-    console.log('Master Edition', masterEdition.toBase58());
+    // const masterEdition = await getMasterEdition(mint);
+    // console.log('Master Edition', masterEdition.toBase58());
 
-    const destination = getAssociatedTokenAddressSync(mint, wallet.publicKey);
-    console.log('Destination', destination.toBase58());
+    // const destination = getAssociatedTokenAddressSync(mint, wallet.publicKey);
+    // console.log('Destination', destination.toBase58());
 
-    const tx = await program.methods
-      .mintNft()
-      .accountsPartial({
-        owner: wallet.publicKey,
-        destination,
-        metadata,
-        masterEdition,
-        mint,
-        mintAuthority,
-        collectionMint,
-        systemProgram: SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
-        tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-      })
-      .signers([mintKeypair])
-      .rpc({
-        skipPreflight: true,
-      });
-    console.log('\nNFT Minted! Your transaction signature', tx);
+    // const tx = await program.methods
+    //   .mintNft()
+    //   .accountsPartial({
+    //     owner: wallet.publicKey,
+    //     destination,
+    //     metadata,
+    //     masterEdition,
+    //     mint,
+    //     mintAuthority,
+    //     collectionMint,
+    //     systemProgram: SystemProgram.programId,
+    //     tokenProgram: TOKEN_PROGRAM_ID,
+    //     associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+    //     tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+    //   })
+    //   .signers([mint])
+    //   .rpc({
+    //     skipPreflight: true,
+    //   });
+    // console.log('\nNFT Minted! Your transaction signature', tx);
 
-    const tx = await program.methods
-      .mintNft()
-      .accountsPartial({
-        owner: wallet.publicKey,
-        destination,
-        metadata,
-        masterEdition,
-        mint,
-        mintAuthority,
-        collectionMint,
-        systemProgram: SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
-        tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-      })
-      .signers([mintKeypair])
-      .rpc({
-        skipPreflight: true,
-      });
+    // await program.methods
+    //   .mintNft()
+    //   .accountsPartial({
+    //     owner: wallet.publicKey,
+    //     destination,
+    //     metadata,
+    //     masterEdition,
+    //     mint,
+    //     mintAuthority,
+    //     collectionMint,
+    //     systemProgram: SystemProgram.programId,
+    //     tokenProgram: TOKEN_PROGRAM_ID,
+    //     associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+    //     tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+    //   })
+    //   .signers([mintKeypair])
+    //   .rpc({
+    //     skipPreflight: true,
+    //   });
   });
 
   it.skip('Verify Collection', async () => {
-    const mintMetadata = await getMetadata(mint);
-    console.log('\nMint Metadata', mintMetadata.toBase58());
+    // const mintMetadata = await getMetadata(mint);
+    // console.log('\nMint Metadata', mintMetadata.toBase58());
 
-    const collectionMetadata = await getMetadata(collectionMint);
-    console.log('Collection Metadata', collectionMetadata.toBase58());
+    // const collectionMetadata = await getMetadata(collectionMint);
+    // console.log('Collection Metadata', collectionMetadata.toBase58());
 
-    const collectionMasterEdition = await getMasterEdition(collectionMint);
-    console.log('Collection Master Edition', collectionMasterEdition.toBase58());
+    // const collectionMasterEdition = await getMasterEdition(collectionMint);
+    // console.log('Collection Master Edition', collectionMasterEdition.toBase58());
 
-    const tx = await program.methods
-      .verifyCollection()
-      .accountsPartial({
-        authority: wallet.publicKey,
-        metadata: mintMetadata,
-        mint,
-        mintAuthority,
-        collectionMint,
-        collectionMetadata,
-        collectionMasterEdition,
-        systemProgram: SystemProgram.programId,
-        sysvarInstruction: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
-        tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-      })
-      .rpc({
-        skipPreflight: true,
-      });
-    console.log('\nCollection Verified! Your transaction signature', tx);
+    // const tx = await program.methods
+    //   .verifyCollection()
+    //   .accountsPartial({
+    //     authority: wallet.publicKey,
+    //     metadata: mintMetadata,
+    //     mint,
+    //     mintAuthority,
+    //     collectionMint,
+    //     collectionMetadata,
+    //     collectionMasterEdition,
+    //     systemProgram: SystemProgram.programId,
+    //     sysvarInstruction: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+    //     tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+    //   })
+    //   .rpc({
+    //     skipPreflight: true,
+    //   });
+    // console.log('\nCollection Verified! Your transaction signature', tx);
   });
 });

@@ -5,10 +5,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-mint_nft = "DxWrWHNEbVzfetvpUJHRLkkNjknLedo1Er1eySfPNbpP"
+mint_nft = "AZCs4LwovZxVmLbbGmxW8k6d32xSYRGeV8HpRVY5Y3To"
 
 [programs.devnet]
-mint_nft = "DxWrWHNEbVzfetvpUJHRLkkNjknLedo1Er1eySfPNbpP"
+mint_nft = "AZCs4LwovZxVmLbbGmxW8k6d32xSYRGeV8HpRVY5Y3To"
 
 [registry]
 url = "https://api.apr.dev"

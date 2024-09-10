@@ -4,7 +4,7 @@ import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
 const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
 // Replace with your program ID
-const programId = new PublicKey('DxWrWHNEbVzfetvpUJHRLkkNjknLedo1Er1eySfPNbpP');
+const programId = new PublicKey('AZCs4LwovZxVmLbbGmxW8k6d32xSYRGeV8HpRVY5Y3To');
 
 // Set up a listener for logs emitted by your program
 const subscriptionId = connection.onLogs(

@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*;
+use anchor_lang::{prelude::*, solana_program::{program::invoke, system_instruction}};
 use anchor_spl::{
     associated_token::AssociatedToken, 
     metadata::Metadata, 
@@ -93,6 +93,10 @@ impl<'info> MintNFT<'info> {
         if launchpad_info.total_supply < launchpad_info.mint_count + 1 {
             panic!();
         }
+        let minter_balance = payer.to_account_info().lamports();
+        if minter_balance < launchpad_info.mint_price {
+            return Err(ProgramError::InsufficientFunds.into());
+        }
 
         let seeds = &[
             &b"authority"[..], 
@@ -168,6 +172,19 @@ impl<'info> MintNFT<'info> {
             }
         );
         master_edition_account.invoke_signed(signer_seeds)?;
+
+        for creator_info in &launchpad_info.creators {
+            let creator_amount = (launchpad_info.mint_price * creator_info.share as u64) / 100;
+    
+            // Transfer SOL to each creator based on their percentage
+            invoke(
+                &system_instruction::transfer(&payer.key(), &creator_info.address, creator_amount),
+                &[
+                    payer.to_account_info(),
+                    system_program.to_account_info(),
+                ],
+            )?;
+        }
 
         Ok(())
         

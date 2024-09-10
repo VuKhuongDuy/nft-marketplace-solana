@@ -10,6 +10,13 @@ export const getMetadata = async (mint: anchor.web3.PublicKey): Promise<anchor.w
   )[0];
 };
 
+export const getMetadataPda = async (mint: anchor.web3.PublicKey): Promise<any> => {
+  return anchor.web3.PublicKey.findProgramAddressSync(
+    [Buffer.from('metadata'), TOKEN_METADATA_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    TOKEN_METADATA_PROGRAM_ID,
+  );
+};
+
 export const getMasterEdition = async (mint: anchor.web3.PublicKey): Promise<anchor.web3.PublicKey> => {
   return anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from('metadata'), TOKEN_METADATA_PROGRAM_ID.toBuffer(), mint.toBuffer(), Buffer.from('edition')],
